@@ -1,0 +1,31 @@
+{
+	"properties": [
+		{
+            "name": "codeapi.title",
+            "type": "java.lang.String",
+            "description": "HTML page title",
+            "sourceType": "com.viiyue.plugins.codeapi.config.CodeApiProperties",
+            "defaultValue": "CodeApi"
+        },
+        {
+            "name": "codeapi.path",
+            "type": "java.lang.String",
+            "description": "The path of the exported api. The default value is: /code-api.",
+            "sourceType": "com.viiyue.plugins.codeapi.config.CodeApiProperties",
+            "defaultValue": true
+        },
+        {
+            "name": "codeapi.base-package",
+            "type": "java.lang.String",
+            "description": "The base package of the scan",
+            "sourceType": "com.viiyue.plugins.codeapi.config.CodeApiProperties"
+        },
+        {
+            "name": "codeapi.exportable",
+            "type": "java.lang.Boolean",
+            "description": "Whether to enable the export feature? The default is disabled.",
+            "sourceType": "com.viiyue.plugins.codeapi.config.CodeApiProperties",
+            "defaultValue": false
+        }
+	]
+}

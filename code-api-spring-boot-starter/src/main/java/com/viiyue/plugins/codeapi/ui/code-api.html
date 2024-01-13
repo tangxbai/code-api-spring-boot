@@ -1,0 +1,299 @@
+<!--
+
+    Copyright (C) 2024 the original author or authors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="author" content="https://github.com/tangxbai">
+		<meta name="theme-color" content="#FFFFFF">
+		<meta name="description" content="Springboot service status code export plug-in">
+		<title><!--TITLE--></title>
+		<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+		<style type="text/css">
+			:root {
+				--box-space: 20px;
+				--box-bg-color: #FFFFFF;
+				--border-color: #E9E9E9;
+			}
+			input::-webkit-input-placeholder { color: #A5A5A5; font-size: 14px; }
+			html, body, ul, li, span, input { margin: 0; padding: 0; box-sizing: border-box }
+			h1 { margin: 0; padding: 1.67rem 0; }
+			body { background-color: #F5F5F5; max-width: 1000px; margin: 0 auto }
+			
+			div.funcational { 
+			    position: fixed;
+			    right: var(--box-space);
+			    bottom: 88px;
+			    background: white;
+			    border-radius: 48px;
+			    border: 1px solid #d2d2d2;
+			    box-shadow: 3px 5px 8px 2px rgba(0, 0, 0, 0.06);
+			    padding: 10px;
+			}
+			div.funcational .item { 
+				display: block;
+			    width: 24px;
+			    height: 24px;
+			    cursor: pointer;
+			    margin-bottom: 20px; 
+		    }
+		    
+		    div.funcational .item:last-child { margin-bottom: 0 } 
+			div.funcational .item:hover { opacity: .8 }
+			div.funcational .item:active { opacity: .5 }
+			div.funcational .top {
+				background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAACIUlEQVRoQ+2ZvU7DMBSFr6NOTHSAjYmJn4kJWAgDE4piD/QleAjKQ/ASMNhVxMRAWICJicLExAZDmZiiGBklkhvVjp04oFbOVKWxfb57zr2tWgRzfqE51w8e4L8d9A4stAOEkEQAUkqjrkA7ixAh5B4A9grhD5TS/S4gOgEghNwCQFgRnFJKD11DOAdQiC91O4dwClAjvhMIZwAzxI8BYKtQLb8Wt5w54QRAIf5T6oMUAFYkIGcQrQFmic/zfBAEwYUMkOf5aRAEl64hWgGoxI9Go5fKe7+RieN40zVEI4AwDHv9fv+mMirHovJCvMjHLABxXwUxmUyO0jTNbMesNUAURUu9Xu9aJ14HoIPIsuw4SZJvGwgrAIzxMkKI1omvA9BBcM4JY+zLFMIYgBCyCgCiCQ+kzadiIx+qipD8jCJOdwAwoJR+mEAYAcRxvFY0366JeBMHyn0UEI9FP73XQdQCYIzXEUKi8jum4m0ANHF64pwPGGNvOggtACFko4jNto14WwANxHMRp1cVhIkDZwihYfmVQB6VusqY9EB1fTVOnPMhY+y8sQPlQoyxgDgxFd/EgWpPcM6v6sSLNbUOyBuXH1J1jdUGoIyT6VnGACaibceo7Z6znvcAqio2aeImjngHvANNciOt8RHyEfIRalkBH6GWBfRTyEfIR6hlBRY2QhjjqX9oGGPiF2rnV2dTyLlSxYYe4K8qrTrHO/DfDvwA7AN1QFN1ytUAAAAASUVORK5CYII=") no-repeat center/contain;
+			}
+			div.funcational .download {
+				background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAB+0lEQVRoQ+2YPU/DMBCG77rxQ1hYYYfuIPkitcywwwILLJQFFlhghxkq5SzBTtnpysIPYeshSwkKKE380TSN5EyV6rt7H7++ODZCxx/suH6IAG07GB2IDgTOgPcSUkrtAMB2YP08/F1rPfHJ5QWglLpAxJFPwXkxIjLSWl+65nQGaEJ8LtoHwgngv3hT0HXGysYX3XSFsAYoE+9jeRlASG4rgJACtg751qgFaGrZzANzXU6VAE02rK0zdT0RAWxn0ndcdGDRO66rE207MM0Eb7oKt92dm2ziCTP3jRAiegMA8/Hn/LTmQLFwyOs4Avg2cXQg65a4hOISAoDOvIVEpG8O50Q0EJGN/MCTAXwy89hcBiCi2ResnqX2ADP/boxGdBGgeHojIrFSDwBLBRCRfa31c5U4pdQQEZ9WEiATdcjMj2UCiegAAB5sxZtxS3UgF4aIx2ma3heFJklyJCJ3LuJbA8gKn2utr81vpdQZIl65im8VIBObXxd6fYmuAoDPpP+JCe2BE0S8CVYRkEBETrXWt/NSVB5oiGgXAF4C6i8idI+ZX70ATBARfQCA95EwkGDKzFtVOWpv5jIIszkNAsW4ho+ZeVgXZAVgkiRJQgCwPpvN1uqShvzf6/W+AeArTVO2yWMNYJOsjTERoI1ZL9aMDkQHAmeg80voB57ZmUDYJ3x9AAAAAElFTkSuQmCC") no-repeat center/contain;
+			}
+
+			footer { text-align: center; padding: var(--box-space); color: #999AAA; font-size: 14px; }
+			footer a { color: inherit; text-decoration-line: none; margin-right: 5px; }
+			footer div { margin-bottom: 5px }
+			footer div a:last-child { margin-right: 0 }
+
+			div.input-layout { 
+				text-align: center; 
+				margin-bottom: var(--box-space); 
+				background-color: #FFF; 
+				position: sticky; 
+				top: -1px;
+				z-index: 100;
+			}
+			div.input-layout input {
+				width: 100%;
+				padding: 10px var(--box-space);
+				font-size: 18px;
+				outline: none;
+				border: 2px solid #EEE;
+ 				transition: border linear .1s;
+			}
+			div.input-layout input:hover { border-color: #DDD; }
+			div.input-layout input:focus { border-color: #BBB; background-color: #F9F9F9 }
+			div.empty-layout {
+			    color: #B3B3B3;
+			    text-align: center;
+			    padding: 105px 10px;
+			    border: 1px solid var(--border-color);
+				background-color: var(--box-bg-color);
+			}
+			div.item-wrapper {
+				margin-bottom: var(--box-space);
+				border: 1px solid var(--border-color);
+				background-color: var(--box-bg-color);
+			}
+			div.item-wrapper .item-label {
+				font-size: 16px;
+				padding: 10px var(--box-space);
+				color: #A1A1A1;
+				background-color: #F7F7F7;
+				border-bottom: 1px solid var(--border-color);
+				position: sticky;
+				top: 42px;
+			}
+			div.item-wrapper .item-codes { padding: 10px 0; }
+			div.item-wrapper .item-codes > li {
+				font-size: 0;
+				list-style: none;
+				padding: 8px var(--box-space);
+				transition: background-color linear .5s;
+				display: flex;
+			}
+			div.item-wrapper .item-codes > li span { font-size: 14px; }
+			div.item-wrapper .item-codes > li:hover { background-color: #F1F1F1 !important; }
+			div.item-wrapper .item-codes > li:nth-child(even) { background-color: #FBFBFB; }
+			div.item-wrapper .item-codes .code-value {
+    			font-size: 13px;
+    			color: white;
+				padding: 1px 5px;
+				margin-right: 10px;
+				border-radius: 3px;
+				background-color: #7B7B7B;
+			}
+			div.item-wrapper .item-codes .code-message { color: #5A5A5A; }
+			div.item-wrapper:last-child { margin-bottom: 0 }
+			div[display=show] { display: block }
+			div[display=none] { display: none }
+		</style>
+<!--SCRIPT-->
+		<script type="text/javascript">
+			let input, timeId;
+			const Layout = { all : null, empty : null, search : null };
+			const KEY_PATTERN = /^(Enter|Backspace|[a-zA-Z0-9])$/, Q_PATTERN = /(value)=([^&]*)/;
+			const URL = window.location.href;
+
+			function getWindowHeight() {
+				return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+			}
+			function onReady( callback ) {
+				var readyState = document.readyState;
+				if ( readyState === 'interactive' || readyState === 'complete' ) {
+					callback();
+				} else {
+					window.addEventListener( 'DOMContentLoaded', callback);
+				}
+			}
+			function appendResult( results ) {
+				let content = [ '<div class="item-wrapper">' ];
+				content.push( '<div class="item-label">共搜索到 <b>' + results.length + '</b> 个结果</div>' );
+				content.push( '<ul class="item-codes">' );
+				results.forEach(( item, index ) => {
+					content.push( '<li data-code="' + item.code + '" title="' + item.code + ' - ' + item.message + '">' );
+					content.push( '<div><span class="code-value"' + ( item.color && ' style="background-color: ' + item.color + '"' ) + '>' + item.code + '</span></div>' );
+					content.push( '<span class="code-message">' + item.message + '</span>' );
+					content.push( '</li>' );
+				});
+				content.push( '</ul>' );
+				content.push( '</div>' );
+				return content.join( '' );
+			}
+			function findResult( codeValue ) {
+				let results = [], isRegexp = codeValue instanceof RegExp;
+				if ( !isRegexp ) {
+					if ( StatusMapping.hasOwnProperty( codeValue ) ) {
+						results.push( StatusMapping[ codeValue ] );
+					}
+				} else {
+					for ( let key in StatusMapping ) {
+						let stringKey = String( key );
+						if ( codeValue.test( stringKey ) ) {
+							results.push( StatusMapping[ stringKey ] );
+						}
+					}
+				}
+				return results.length ? appendResult( results ) : null;
+			}
+			function toSearch( codeValue ) {
+				timeId && clearTimeout( timeId );
+				if ( codeValue && codeValue.trim() !== '' ) {
+					timeId = setTimeout( () => {
+						if ( codeValue.indexOf( 'x' ) >= 0 || codeValue.indexOf( 'X' ) >= 0 ) {
+							codeValue = new RegExp( '^(' + input.value.replace( /x/gi, '[a-zA-Z0-9]' ) + ')' );
+						}
+						let result = findResult( codeValue );
+						if ( result ) {
+							switchLayout( Layout.search );
+							Layout.search.innerHTML = result;
+							changeUrl( false, input.value );
+						} else {
+							switchLayout( Layout.empty );
+							changeUrl( true );
+						}
+					}, 300 );
+				} else {
+					switchLayout( Layout.all );
+					changeUrl( true );
+				}
+			}
+			function changeUrl( empty, code ) {
+				let url = window.location.href;
+				if ( url.endsWith( '?' ) ) {
+					url = url.substring( 0, url.length() - 1 );
+				}
+				if ( empty ) {
+					url = url.replace( Q_PATTERN, '$1=' );
+				} else if ( Q_PATTERN.test( url ) ) {
+					 url = url.replace( Q_PATTERN, code ? '$1=' + input.value : '' );
+				} else {
+					url += ( url.indexOf( '?' ) >= 0 ? '&' : '?' ) + 'value=' + code;
+				}
+				window.history.replaceState( '', null, url );
+			}
+			function switchLayout( actived ) {
+				for ( let key in Layout ) {
+					let wrapper = Layout[ key ];
+					wrapper.setAttribute( 'display', wrapper === actived ? 'show' : 'none' );
+				}
+			}
+			onReady(() => {
+				input = document.querySelector( 'input[type=text]' );
+				Layout.all = document.querySelector( 'div.content-layout' );
+				Layout.empty = document.querySelector( 'div.empty-layout' );
+				Layout.search = document.querySelector( 'div.search-layout' );
+
+				// Fix footer layout
+				const main = document.querySelector( 'div.body-layout' );
+				const caption = document.querySelector( 'h1.caption' );
+				const footer = document.querySelector( 'body > footer' );
+				function autoResponse() {
+					main.style.minHeight = `${ getWindowHeight() - caption.offsetHeight - footer.offsetHeight }px`;
+				}
+				window.addEventListener( 'resize', autoResponse );	
+				autoResponse();
+
+				// Scroll top
+				const scroll = document.querySelector( 'div.funcational .top' );
+				scroll.addEventListener( 'click', () => window.scrollTo({ top: 0, behavior: 'smooth' }) );
+				
+				// Export
+				const download = document.querySelector( 'div.funcational .download' );
+				if ( download ) {
+					download.setAttribute( 'href', window.location.pathname + '/export' );
+				}
+				
+				// Search
+				const inputLayout = document.querySelector( 'div.input-layout' );
+				const sh = inputLayout.offsetHeight - 1;
+				document.querySelectorAll( '.item-label' ).forEach( label => label.style.top = sh + 'px' );
+				input.addEventListener( 'keyup', e => {
+					if ( KEY_PATTERN.test( e.key ) ) {
+						toSearch( input.value );
+					}
+				});
+				window.addEventListener( 'keydown', e => {
+					if ( input !== ( e.target || e.srcElement ) ) {
+						input.focus();
+						input.select();
+					}
+					if ( e.key === 'Escape' ) {
+						input.value = '';
+						toSearch( input.value );
+					}
+				});
+				if ( searchCode ) {
+					input.setSelectionRange( input.value.length, input.value.length );
+				}
+			});
+		</script>
+	</head>
+	<body>
+		<h1 class="caption" align="center"><!--TITLE--></h1>
+		<div class="funcational">
+			<div class="item top" title="回到顶部"></div>
+			<!--DOWNLOAD-->
+		</div>
+		<div class="body-layout">
+			<div class="input-layout">
+				<input type="text" placeholder="快速搜索状态码（鼠标悬停可查看更多提示信息）" autofocus="autofocus" title="1、按下 ESC 建快速清除搜索结果，并回到初始结果集；&#10;2、无论搜索框是否获取焦点，均可以直接按下键盘发起搜索；&#10;3、搜索框内支持“x”占位符搜索，例如：5x，代表以5开头的所有状态码。" value="<!--INPUT_VALUE-->"/>
+			</div>
+			<div class="empty-layout" display="none">没有找到对应状态码信息</div>
+			<!--LAYOUT_SEARCH-->
+			<!--LAYOUT_DEFAULT-->
+		</div>
+		<footer>
+			<div>code-api v<!--VERSION--></div>
+			<div>
+				<a target="_blank" href="https://github.com/tangxbai/code-api">关于本页</a>
+				<a target="_blank" href="https://github.com/tangxbai/code-api/issues">提问题</a>
+				<a target="_blank" href="https://search.maven.org/search?q=a:code-api">最新版本</a>
+				<a target="_blank" href="mailto:tangxbai@hotmail.com" title="tangxbai@hotmail.com">联系作者</a>
+			</div>
+		</footer>
+	</body>
+</html>
