@@ -35,9 +35,9 @@
 
 ```xml
 <dependency>
-	<groupId>com.viiyue.plugins</groupId>
-	<artifactId>code-api-spring-boot-starter</artifactId>
-	<version>[VERSION]</version>
+    <groupId>com.viiyue.plugins</groupId>
+    <artifactId>code-api-spring-boot-starter</artifactId>
+    <version>[VERSION]</version>
 </dependency>
 ```
 
@@ -186,14 +186,14 @@ public class CodeApiConfiguration {
 public class MyCodeDownloader implements CodeDownloader {
     
     @Override
-	public String getExtension() {
-		return "ext";
-	}
+    public String getExtension() {
+        return "ext";
+    }
 
-	@Override
-	public void download( OutputStream out, CodeApiProperties props, List<CodeBean> codes ) throws IOException {
-		// ...
-	}
+    @Override
+    public void download( OutputStream out, CodeApiProperties props, List<CodeBean> codes ) throws IOException {
+        // ...
+    }
     
 }
 ```
